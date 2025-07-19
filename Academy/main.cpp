@@ -4,6 +4,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+#define DELIMETR "\n-----------------------"
+
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETRS  last_name,  first_name,  age
 
@@ -45,12 +47,12 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 	//Methods:
-	void Info()const
+	virtual void info()const
 	{
 		cout << last_name << " " << first_name << " " << age << endl;
 	}
@@ -117,9 +119,9 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 	//Methods:
-	void info()const
+	void info()const override
 	{
-		Human::Info();
+		Human::info();
 		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
 	}
 };
@@ -164,9 +166,9 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 	//Methods:
-	void info()const
+	void info()const override
 	{
-		Human::Info();
+		Human::info();
 		cout << speciality << " " << experiance << endl;
 	}
 };
@@ -186,17 +188,21 @@ public:
 		cout << "GDestructor:\t" << this << endl;
 	}
 	
-	void info() const
+	void info() const override
 	{
-		Human::Info();
+		Student::info();
 		cout << subject << endl;
 	}
 
 };
 
+//#define INHERITANCE
+#define POLYMORPHISM
+
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef INHERITANCE
 	Human human("Montana", "Antonio", 25);
 	human.Info();
 
@@ -206,7 +212,28 @@ void main()
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
 	teacher.info();
 
-	Graduate graduate("Schreder", "Hank", 40, "Criminalistic","VV_220", 40, 60, "How to catch Heisenberg");
+	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "VV_220", 40, 60, "How to catch Heisenberg");
 	graduate.info();
+#endif // INHERITANCE
+
+	Human* group[] =
+	{
+		new Human("Montana", "Antonio", 25),
+		new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_220", 95, 99),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Graduate("Schreder", "Hank", 40, "Criminalistic", "VV_220", 40, 60, "How to catch Heisenberg"),
+		new Student("Vercetty","Tomy",30,"Theft","Vice",98,99),
+		new Teacher("Diar","Ricardo",50,"Weapons distribution",20)
+	};
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		group[i]->info();
+		cout << DELIMETR << endl;
+	}
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
 
 }

@@ -11,10 +11,16 @@ using std::endl;
 
 class Human 
 {
+	//static const double PI = 3.14;
 	std::string last_name;
 	std::string first_name;
+	static int count;
 	int age;
 public:
+	static int get_count()
+	{
+		return count;
+	}
 	const std::string& get_last_name()const
 	{
 		return last_name;
@@ -45,10 +51,12 @@ public:
 		set_last_name(last_name);
 		set_first_name(first_name);
 		set_age(age);
+		count++;
 		cout << "HConstructor:\t" << this << endl;
 	}
 	virtual ~Human()
 	{
+		count--;
 		cout << "HDestructor:\t" << this << endl;
 	}
 	//Methods:
@@ -58,6 +66,9 @@ public:
 	}
 
 };
+//static member definition: 
+int Human::count = 0;//Статическую переменную инициализируем за классами
+
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GiVE_PARAMETRS  speciality,  group,  rating,  attendance
@@ -231,6 +242,8 @@ void main()
 		group[i]->info();
 		cout << DELIMETR << endl;
 	}
+	cout << "Количество людей " << Human::get_count() << endl;
+	cout << "Количество людей " << group[0]->get_count() << endl;//Вызвать через обьект
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];

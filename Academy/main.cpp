@@ -208,7 +208,7 @@ public:
 };
 
 //#define INHERITANCE
-#define POLYMORPHISM
+//#define POLYMORPHISM
 
 void main()
 {
@@ -227,6 +227,7 @@ void main()
 	graduate.info();
 #endif // INHERITANCE
 
+#ifdef POLYMORPHISM
 	Human* group[] =
 	{
 		new Human("Montana", "Antonio", 25),
@@ -248,5 +249,7 @@ void main()
 	{
 		delete group[i];
 	}
+#endif // POLYMORPHISM
+
 
 }

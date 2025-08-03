@@ -1,4 +1,6 @@
 #include<iostream>
+#include<fstream>
+#include<string>
 //using namespace std;
 using std::cin;
 using std::cout;
@@ -12,7 +14,8 @@ using std::endl;
 class Human 
 {
 	//static const double PI = 3.14;
-	static const int LAST_NAME_WIDTH = 15;
+	static const int TYPE_WIDTH = 10;
+	static const int LAST_NAME_WIDTH = 16;
 	static const int FIRST_NAME_WIDTH = 15;
 	static const int AGE_WIDTH = 3;
 	static int count; // Static member declaration
@@ -65,10 +68,17 @@ public:
 	//Methods:
 	virtual std::ostream& info(std::ostream& os)const
 	{
+		os.width(TYPE_WIDTH);
+		os << std::left;// первый вызов "width" задает выравнивание по правому краю заданного поля
+
+		os << std::string(typeid(*this).name() + 6) + ": "; // +6 убираем из строки слово "class"
+		/*os << strchr(typeid(*this).name(), ' ')+1 << ":";*/
+		
 		os.width(LAST_NAME_WIDTH);//метод "width" задает ширину вывода в знакопозициях
 					 //если выводимая строка меньше,то недостающие символы заполняются пробелами
 		             //если выводимая строка больше, она выводитсся полностью
-		os << std::left;// первый вызов "width" задает выравнивание по правому краю заданного поля
+		             // Метод "width" задает ширину только для одного выводимого значения
+		             //все последующие значения будут выводится с минимальной шириной
 		os << last_name;
 		os.width(FIRST_NAME_WIDTH);
 		os << first_name;
@@ -276,15 +286,28 @@ void main()
 		new Student("Vercetty","Tomy",30,"Theft","Vice",98,99),
 		new Teacher("Diar","Ricardo",50,"Weapons distribution",20),
 		new Graduate("Targarian","Daineris",22,"Flight","Got",91,92,"How to make smoke"),
-		new Teacher("Schwartzneger","Arnold",85,"Heavy Metal",60)
+		new Teacher("Schwartzenegger","Arnold",85,"Heavy Metal",60)
 	};
 
+	char filename[] = "group.txt";
+	std::ofstream fout(filename); // открыли поток
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		//group[i]->info();
 		cout << *group[i] << endl;
+		fout << *group[i] << endl; // записали в файл
 		cout << DELIMETR << endl;
 	}
+	fout.close(); // закрыли поток
+	char cmd[FILENAME_MAX] = "notepad ";
+	
+	/*strcat(cmd, filename);
+	system(cmd);*/
+
+	/*system(strcat(cmd, filename));*/
+
+	system((std::string("start notepad ") + filename).c_str());
+
 	cout << "Количество людей " << Human::get_count() << endl;//Статическая переменная "COUNT"
 	cout << "Количество людей " << group[0]->get_count() << endl;//Вызвать через обьект
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)

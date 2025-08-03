@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 #include<fstream>
 #include<string>
 //using namespace std;
@@ -69,16 +69,16 @@ public:
 	virtual std::ostream& info(std::ostream& os)const
 	{
 		os.width(TYPE_WIDTH);
-		os << std::left;// первый вызов "width" задает выравнивание по правому краю заданного поля
+		os << std::left;// РїРµСЂРІС‹Р№ РІС‹Р·РѕРІ "width" Р·Р°РґР°РµС‚ РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ Р·Р°РґР°РЅРЅРѕРіРѕ РїРѕР»СЏ
 
-		os << std::string(typeid(*this).name() + 6) + ": "; // +6 убираем из строки слово "class"
+		os << std::string(typeid(*this).name() + 6) + ": "; // +6 СѓР±РёСЂР°РµРј РёР· СЃС‚СЂРѕРєРё СЃР»РѕРІРѕ "class"
 		/*os << strchr(typeid(*this).name(), ' ')+1 << ":";*/
 		
-		os.width(LAST_NAME_WIDTH);//метод "width" задает ширину вывода в знакопозициях
-					 //если выводимая строка меньше,то недостающие символы заполняются пробелами
-		             //если выводимая строка больше, она выводитсся полностью
-		             // Метод "width" задает ширину только для одного выводимого значения
-		             //все последующие значения будут выводится с минимальной шириной
+		os.width(LAST_NAME_WIDTH);//РјРµС‚РѕРґ "width" Р·Р°РґР°РµС‚ С€РёСЂРёРЅСѓ РІС‹РІРѕРґР° РІ Р·РЅР°РєРѕРїРѕР·РёС†РёСЏС…
+					 //РµСЃР»Рё РІС‹РІРѕРґРёРјР°СЏ СЃС‚СЂРѕРєР° РјРµРЅСЊС€Рµ,С‚Рѕ РЅРµРґРѕСЃС‚Р°СЋС‰РёРµ СЃРёРјРІРѕР»С‹ Р·Р°РїРѕР»РЅСЏСЋС‚СЃСЏ РїСЂРѕР±РµР»Р°РјРё
+		             //РµСЃР»Рё РІС‹РІРѕРґРёРјР°СЏ СЃС‚СЂРѕРєР° Р±РѕР»СЊС€Рµ, РѕРЅР° РІС‹РІРѕРґРёС‚СЃСЃСЏ РїРѕР»РЅРѕСЃС‚СЊСЋ
+		             // РњРµС‚РѕРґ "width" Р·Р°РґР°РµС‚ С€РёСЂРёРЅСѓ С‚РѕР»СЊРєРѕ РґР»СЏ РѕРґРЅРѕРіРѕ РІС‹РІРѕРґРёРјРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+		             //РІСЃРµ РїРѕСЃР»РµРґСѓСЋС‰РёРµ Р·РЅР°С‡РµРЅРёСЏ Р±СѓРґСѓС‚ РІС‹РІРѕРґРёС‚СЃСЏ СЃ РјРёРЅРёРјР°Р»СЊРЅРѕР№ С€РёСЂРёРЅРѕР№
 		os << last_name;
 		os.width(FIRST_NAME_WIDTH);
 		os << first_name;
@@ -95,7 +95,7 @@ public:
 
 };
 //static member definition: 
-int Human::count = 0;//Статическую переменную инициализируем за классами
+int Human::count = 0;//РЎС‚Р°С‚РёС‡РµСЃРєСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј Р·Р° РєР»Р°СЃСЃР°РјРё
 
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
@@ -118,8 +118,8 @@ class Student :public Human
 	static const int RATTING_WIDTH = 5;
 	std:: string speciality;
 	std::string group;
-	double rating;//успеваемость
-	double attendance;//посещаемость
+	double rating;//СѓСЃРїРµРІР°РµРјРѕСЃС‚СЊ
+	double attendance;//РїРѕСЃРµС‰Р°РµРјРѕСЃС‚СЊ
 public:
 	const std::string& get_speciality()const
 	{
@@ -286,7 +286,7 @@ void Print(Human* group[],const int n)
 		cout << *group[i] << endl;
 	}
 		cout << DELIMETR << endl;
-	cout << "Количество людей " << group[0]->get_count() << endl;
+	cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№ " << group[0]->get_count() << endl;
 }
 
 void Save(Human** group, const int n,const char filename[])
@@ -311,30 +311,30 @@ Human* HumanFactory( std::string& type)
 }
 Human** Load(const char filename[])
 {
-	int n = 0;//Количество обьектов хранящихся в файле
+	int n = 0;//РљРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЊРµРєС‚РѕРІ С…СЂР°РЅСЏС‰РёС…СЃСЏ РІ С„Р°Р№Р»Рµ
 	Human** group = nullptr;
 	std::ifstream fin(filename);
 	if (fin.is_open())
 	{
-	    //1 Посчитать количество обьектов в файле для того что бы выделить память
+	    //1 РџРѕСЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЊРµРєС‚РѕРІ РІ С„Р°Р№Р»Рµ РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ РІС‹РґРµР»РёС‚СЊ РїР°РјСЏС‚СЊ
 		std::string buffer;
 		while (!fin.eof())// eof() _ End Of File 
 		{
 			std::getline(fin, buffer);
 			if (buffer.size() == 0)continue;
-			//break_прирывает текущую итерацию
-			//continue_прерывает текущую итерацию и переходит к следующей
+			//break_РїСЂРёСЂС‹РІР°РµС‚ С‚РµРєСѓС‰СѓСЋ РёС‚РµСЂР°С†РёСЋ
+			//continue_РїСЂРµСЂС‹РІР°РµС‚ С‚РµРєСѓС‰СѓСЋ РёС‚РµСЂР°С†РёСЋ Рё РїРµСЂРµС…РѕРґРёС‚ Рє СЃР»РµРґСѓСЋС‰РµР№
 			n++;
 		}
 		//cout << "file position: "<<fin.tellg() << endl;
-		cout << "Количество обьектов: " << n << endl;
-		//2 Выделить память под массив обьектов:
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЊРµРєС‚РѕРІ: " << n << endl;
+		//2 Р’С‹РґРµР»РёС‚СЊ РїР°РјСЏС‚СЊ РїРѕРґ РјР°СЃСЃРёРІ РѕР±СЊРµРєС‚РѕРІ:
 		group = new Human * [n] {};
-		//3 Возвращаемся в начало файла, для того что бы считать обьекты
+		//3 Р’РѕР·РІСЂР°С‰Р°РµРјСЃСЏ РІ РЅР°С‡Р°Р»Рѕ С„Р°Р№Р»Р°, РґР»СЏ С‚РѕРіРѕ С‡С‚Рѕ Р±С‹ СЃС‡РёС‚Р°С‚СЊ РѕР±СЊРµРєС‚С‹
 		fin.clear();
 		fin.seekg(0);
 		cout << "file position: "<<fin.tellg() << endl;
-		//4 Считываем обьекты из файла
+		//4 РЎС‡РёС‚С‹РІР°РµРј РѕР±СЊРµРєС‚С‹ РёР· С„Р°Р№Р»Р°
 		for (int i = 0; i < n; i++)
 		{
 			std::getline(fin, buffer,':');
@@ -342,7 +342,7 @@ Human** Load(const char filename[])
 			group[i] = HumanFactory(buffer);
 			//std::getline(fin, buffer);
 			fin >> *group[i];
-			//fin.ignore();//Игнорим '\n';
+			//fin.ignore();//РРіРЅРѕСЂРёРј '\n';
 		}
 	}
 	fin.close();
@@ -393,15 +393,15 @@ void main()
 	};
 
 	char filename[] = "group.txt";
-	std::ofstream fout(filename); // открыли поток
+	std::ofstream fout(filename); // РѕС‚РєСЂС‹Р»Рё РїРѕС‚РѕРє
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		//group[i]->info();
 		cout << *group[i] << endl;
-		fout << *group[i] << endl; // записали в файл
+		fout << *group[i] << endl; // Р·Р°РїРёСЃР°Р»Рё РІ С„Р°Р№Р»
 		cout << DELIMETR << endl;
 	}
-	fout.close(); // закрыли поток
+	fout.close(); // Р·Р°РєСЂС‹Р»Рё РїРѕС‚РѕРє
 	char cmd[FILENAME_MAX] = "notepad ";
 	
 	/*strcat(cmd, filename);
@@ -411,8 +411,8 @@ void main()
 
 	system((std::string("start notepad ") + filename).c_str());
 
-	cout << "Количество людей " << Human::get_count() << endl;//Статическая переменная "COUNT"
-	cout << "Количество людей " << group[0]->get_count() << endl;//Вызвать через обьект
+	cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№ " << Human::get_count() << endl;//РЎС‚Р°С‚РёС‡РµСЃРєР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ "COUNT"
+	cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№ " << group[0]->get_count() << endl;//Р’С‹Р·РІР°С‚СЊ С‡РµСЂРµР· РѕР±СЊРµРєС‚
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];

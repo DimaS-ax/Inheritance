@@ -88,6 +88,11 @@ public:
 		//return os << last_name << " " << first_name << " " << age ;
 	}
 
+	virtual std::istream& scan(std::istream& is)
+	{
+		return is >> last_name >> first_name >> age;
+	}
+
 };
 //static member definition: 
 int Human::count = 0;//Статическую переменную инициализируем за классами
@@ -96,6 +101,11 @@ std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.info(os);
 	//return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
+}
+
+std::istream& operator>>(std::istream& is, Human& obj)
+{
+	return obj.scan(is);
 }
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendance
@@ -176,6 +186,10 @@ public:
 		/*Human::info(os) << " ";
 		return os << speciality << " " << group << " " << rating << " " << attendance ;*/
 	}
+	std::istream& scan(std::istream& is)override
+	{
+		return Human::scan(is) >> speciality >> group >> rating >> attendance;
+	}
 };
 
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int experiance
@@ -231,6 +245,10 @@ public:
 		/*Human::info(os)<<" ";
 		return os << speciality << " " << experiance ;*/
 	}
+	std::istream& scan(std::istream& is)override
+	{
+		return Human::scan(is) >> speciality >> experiance;
+	}
 };
 
 class Graduate :public Student
@@ -253,31 +271,85 @@ public:
 		Student::info(os)<<" ";
 		return os << subject ;
 	}
+	std::istream& scan(std::istream& is)
+	{
+		return std::getline(Student::scan(is), subject);
+	}
 };
 
-void Print(Human* group[], const int n)
+void Print(Human* group[],const int n)
 {
 	cout << typeid(group).name() << endl;
+	cout << DELIMETR << endl;
 	for (int i = 0; i < n; i++)
 	{
 		cout << *group[i] << endl;
-		cout << DELIMETR << endl;
 	}
+		cout << DELIMETR << endl;
 	cout << "Количество людей " << group[0]->get_count() << endl;
 }
 
-void Save(Human** group, const int n, char filename[])
+void Save(Human** group, const int n,const char filename[])
 {
 	std::ofstream fout(filename);
 	for (int i = 0; i < n; i++)
 	{
 		fout << *group[i] << endl;
-		cout << DELIMETR << endl;
 	}
 	fout.close();
 }
+Human* HumanFactory( std::string& type)
+{
+	Human* human = nullptr;
+	//if (type[0] == '\n')type = type.c_str() + 1;
+	
+	if (strstr(type.c_str(),"Human"))human = new Human("", "", 0);
+	if (strstr(type.c_str(), "Student"))human = new Student("", "", 0, "", "", 0, 0);
+	if (strstr(type.c_str(), "Graduate"))human = new Graduate("", "", 0, "", "", 0, 0, "");
+	if (strstr(type.c_str(), "Teacher"))human = new Teacher("", "", 0, "", 0);
+	return human;
+}
+Human** Load(const char filename[])
+{
+	int n = 0;//Количество обьектов хранящихся в файле
+	Human** group = nullptr;
+	std::ifstream fin(filename);
+	if (fin.is_open())
+	{
+	    //1 Посчитать количество обьектов в файле для того что бы выделить память
+		std::string buffer;
+		while (!fin.eof())// eof() _ End Of File 
+		{
+			std::getline(fin, buffer);
+			if (buffer.size() == 0)continue;
+			//break_прирывает текущую итерацию
+			//continue_прерывает текущую итерацию и переходит к следующей
+			n++;
+		}
+		//cout << "file position: "<<fin.tellg() << endl;
+		cout << "Количество обьектов: " << n << endl;
+		//2 Выделить память под массив обьектов:
+		group = new Human * [n] {};
+		//3 Возвращаемся в начало файла, для того что бы считать обьекты
+		fin.clear();
+		fin.seekg(0);
+		cout << "file position: "<<fin.tellg() << endl;
+		//4 Считываем обьекты из файла
+		for (int i = 0; i < n; i++)
+		{
+			std::getline(fin, buffer,':');
+			//cout << buffer << endl;
+			group[i] = HumanFactory(buffer);
+			//std::getline(fin, buffer);
+			fin >> *group[i];
+			//fin.ignore();//Игнорим '\n';
+		}
+	}
+	fin.close();
+	return group;
+}
 
-void Clear(Human** group, const int n)
+void Clear(Human** group,  int n)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -287,6 +359,7 @@ void Clear(Human** group, const int n)
 
 //#define INHERITANCE
 //#define POLYMORPHISM
+//#define WRITE_TO_FILE
 
 void main()
 {
@@ -304,6 +377,7 @@ void main()
 	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "VV_220", 40, 60, "How to catch Heisenberg");
 	graduate.info();
 #endif // INHERITANCE
+	
 
 #ifdef POLYMORPHISM
 	Human* group[] =
@@ -345,6 +419,7 @@ void main()
 	}
 #endif // POLYMORPHISM
 
+#ifdef WRITE_TO_FILE
 	Human* group[] =
 	{
 		new Human("Montana", "Antonio", 25),
@@ -357,7 +432,14 @@ void main()
 		new Teacher("Schwartzenegger","Arnold",85,"Heavy Metal",60)
 	};
 	cout << typeid(group).name() << endl;
-	Print(group,sizeof(group)/sizeof(group[0]));
+	Print(group, sizeof(group) / sizeof(group[0]));
+	Save(group, sizeof(group) / sizeof(group[0]), "group.txt");
 	Clear(group, sizeof(group) / sizeof(group[0]));
+
+#endif // WRITE_TO_FILE
+
+	Human** group = Load("group.txt");
+	cout << "======================================\n";
+	Print(group, 8);
 
 }

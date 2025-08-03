@@ -253,11 +253,40 @@ public:
 		Student::info(os)<<" ";
 		return os << subject ;
 	}
-
 };
 
+void Print(Human* group[], const int n)
+{
+	cout << typeid(group).name() << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout << *group[i] << endl;
+		cout << DELIMETR << endl;
+	}
+	cout << "Количество людей " << group[0]->get_count() << endl;
+}
+
+void Save(Human** group, const int n, char filename[])
+{
+	std::ofstream fout(filename);
+	for (int i = 0; i < n; i++)
+	{
+		fout << *group[i] << endl;
+		cout << DELIMETR << endl;
+	}
+	fout.close();
+}
+
+void Clear(Human** group, const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		delete group[i];
+	}
+}
+
 //#define INHERITANCE
-#define POLYMORPHISM
+//#define POLYMORPHISM
 
 void main()
 {
@@ -316,5 +345,19 @@ void main()
 	}
 #endif // POLYMORPHISM
 
+	Human* group[] =
+	{
+		new Human("Montana", "Antonio", 25),
+		new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_220", 95, 99),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Graduate("Schreder", "Hank", 40, "Criminalistic", "VV_220", 40, 60, "How to catch Heisenberg"),
+		new Student("Vercetty","Tomy",30,"Theft","Vice",98,99),
+		new Teacher("Diar","Ricardo",50,"Weapons distribution",20),
+		new Graduate("Targarian","Daineris",22,"Flight","Got",91,92,"How to make smoke"),
+		new Teacher("Schwartzenegger","Arnold",85,"Heavy Metal",60)
+	};
+	cout << typeid(group).name() << endl;
+	Print(group,sizeof(group)/sizeof(group[0]));
+	Clear(group, sizeof(group) / sizeof(group[0]));
 
 }

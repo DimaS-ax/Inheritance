@@ -60,15 +60,20 @@ public:
 		cout << "HDestructor:\t" << this << endl;
 	}
 	//Methods:
-	virtual void info()const
+	virtual std::ostream& info(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << endl;
+		return os << last_name << " " << first_name << " " << age ;
 	}
 
 };
 //static member definition: 
 int Human::count = 0;//Статическую переменную инициализируем за классами
 
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return obj.info(os);
+	//return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
+}
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GiVE_PARAMETRS  speciality,  group,  rating,  attendance
@@ -130,10 +135,10 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 	//Methods:
-	void info()const override
+	std::ostream& info(std::ostream& os)const override
 	{
-		Human::info();
-		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
+		Human::info(os) << " ";
+		return os << speciality << " " << group << " " << rating << " " << attendance ;
 	}
 };
 
@@ -177,10 +182,10 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 	//Methods:
-	void info()const override
+	std::ostream& info(std::ostream& os)const override
 	{
-		Human::info();
-		cout << speciality << " " << experiance << endl;
+		Human::info(os)<<" ";
+		return os << speciality << " " << experiance ;
 	}
 };
 
@@ -199,16 +204,16 @@ public:
 		cout << "GDestructor:\t" << this << endl;
 	}
 	
-	void info() const override
+	std::ostream& info(std::ostream& os) const override
 	{
-		Student::info();
-		cout << subject << endl;
+		Student::info(os)<<" ";
+		return os << subject ;
 	}
 
 };
 
 //#define INHERITANCE
-//#define POLYMORPHISM
+#define POLYMORPHISM
 
 void main()
 {
@@ -240,7 +245,8 @@ void main()
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		group[i]->info();
+		//group[i]->info();
+		cout << *group[i] << endl;
 		cout << DELIMETR << endl;
 	}
 	cout << "Количество людей " << Human::get_count() << endl;
